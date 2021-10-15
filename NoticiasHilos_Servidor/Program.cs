@@ -2,7 +2,7 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-
+using System.Threading;
 
 namespace NoticiasHilos_Servidor
 {
@@ -17,8 +17,6 @@ namespace NoticiasHilos_Servidor
 
 			try
 			{
-				int contador = 0;
-
 				Console.WriteLine("Multicast envia al Grupo: {0} Port: {1} TTL: {2}", mcastGroup, port, ttl);
 				ip = IPAddress.Parse(mcastGroup);
 
@@ -36,7 +34,8 @@ namespace NoticiasHilos_Servidor
 
 				for (int x = 0; x < noticias.Length; x++)
 				{
-					Console.WriteLine("Enviando:", noticias[contador]);
+					Console.WriteLine("Enviando: {0}", noticias[x]);
+					Thread.Sleep(10000);
 					socket.Send(Encoding.ASCII.GetBytes(noticias[x]), Encoding.ASCII.GetBytes(noticias[x]).Length, SocketFlags.None);
 				}
 
@@ -49,7 +48,7 @@ namespace NoticiasHilos_Servidor
 		static void Main(string[] args)
 		{
 
-			new send("224.3.3.4", "8888", "1", "2");
+			new send("224.2.2.3", "8888", "1", "2");
 		}
 	}
 }
