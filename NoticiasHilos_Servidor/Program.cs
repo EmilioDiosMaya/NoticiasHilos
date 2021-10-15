@@ -48,7 +48,7 @@ namespace NoticiasHilos_Servidor
 		static void Main(string[] args)
 		{
 
-			new send("224.3.3.4", "8888", "1", "2");
+			new send("224.2.2.3", "8888", "1", "2");
 		}
 	}
 }
