@@ -11,8 +11,8 @@
             <Image Height="100" Source="img/noticias.png"/>
             <Label Content="Noticias" HorizontalAlignment="Center" FontFamily="Roboto" FontSize="24" Margin="0,10,0,0"/>
             <StackPanel>
-                <Button Content="Iniciar" Width="75"/>
-                <Button Content="Salir" Width="75"/>
+                <Button x:Name="btn_iniciar" Content="Iniciar" Width="75" Click="Click_btn_iniciar"/>
+                <Button x:Name="btn_salir" Content="Salir" Width="75" Click="Click_btn_salir"/>
             </StackPanel>
             <Rectangle Fill="CadetBlue" Height="7" Margin="0,10"/>
             <TextBox x:Name="tb_noticias" TextWrapping="Wrap" Text="" AcceptsReturn="True" AcceptsTab="True" IsReadOnly="True" HorizontalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Auto" Height="179"/>
