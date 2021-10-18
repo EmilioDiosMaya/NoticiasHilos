@@ -14,6 +14,7 @@ namespace NoticiasHilos_Servidor
 			"Salio a comprar vino y ya no vino", "Hombre agarrando señal ante transito", "GTA6 para el viernes",
 			"Spiderman ¿Heroé o villano?", "Pico de Orizaba es ahora Pico de Puebla xd"};
 			IPAddress ip;
+			int limite = noticias.Length;
 
 			try
 			{
@@ -32,11 +33,17 @@ namespace NoticiasHilos_Servidor
 
 				socket.Connect(ipep);
 
-				for (int x = 0; x < noticias.Length; x++)
+				for (int x = 0; x <= noticias.Length; x++)
 				{
-					Console.WriteLine("Enviando: {0}", noticias[x]);
-					Thread.Sleep(10000);
-					socket.Send(Encoding.ASCII.GetBytes(noticias[x]), Encoding.ASCII.GetBytes(noticias[x]).Length, SocketFlags.None);
+					if (x == limite)
+					{
+						x = 0;
+                    }
+                    else {
+						Console.WriteLine("Enviando: {0}", noticias[x]);
+						Thread.Sleep(10000);
+						socket.Send(Encoding.ASCII.GetBytes(noticias[x]), Encoding.ASCII.GetBytes(noticias[x]).Length, SocketFlags.None);
+					}
 				}
 
 				Console.WriteLine("Closing Connection...");
