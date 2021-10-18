@@ -48,7 +48,7 @@ namespace NoticiasHilos_Cliente
             {
                 this.Dispatcher.Invoke(() =>
                 {
-                    tb_noticias.AppendText("Bienvenido al noticiero");
+                    lb_noticias.Content = "¡Bienvenido! Esto es lo ultimo en noticias.";
                 });
                 
                 while (true)
@@ -59,24 +59,43 @@ namespace NoticiasHilos_Cliente
                     Console.WriteLine(Encoding.Default.GetString(data));
 
                     noticia = Encoding.Default.GetString(data);
-                    noticia = String.Format("\nNoticia: {0}\n", noticia);
 
                     this.Dispatcher.Invoke(() =>
                     {
-                        tb_noticias.AppendText(noticia);
+                        sp_noticias.Children.Add(CrearNoticia(noticia));
                     });
                 }
             }
             catch (Exception ex)
             {
-                tb_noticias.Clear();
                 Console.WriteLine(ex.StackTrace);
             }
+        }
+
+        private UIElement CrearNoticia(string noticia)
+        {
+            StackPanel stackP = new StackPanel();
+            Label label = new Label();
+
+            //Configurar el label
+            label.Content = noticia;
+            label.HorizontalAlignment = HorizontalAlignment.Center;
+
+            stackP.Children.Add(label);
+            stackP.Background = Brushes.Azure;
+
+            return stackP;
         }
 
         private void Click_btn_salir(object sender, RoutedEventArgs e)
         {
             thread.Abort();
+
+            this.Dispatcher.Invoke(() => {
+                sp_noticias.Children.Clear();
+                lb_noticias.Content = "Adios!";
+            });
+
         }
     }
 }
