@@ -27,10 +27,15 @@ namespace NoticiasHilos_Cliente
         private UdpClient udpClient;
         private string IP_ADDR = "224.2.2.3";
         private int PORT = 8888;
-        private string noticia;
+        private int numNoticia = 0;
+        private bool ocupado = false;
+        private List<Thread> hilosNoticias;
+        private List<String> noticias;
         public MainWindow()
         {
             InitializeComponent();
+            noticias = new List<string>();
+            hilosNoticias = new List<Thread>();
         }
 
         private void Click_btn_iniciar(object sender, RoutedEventArgs e)
@@ -50,20 +55,26 @@ namespace NoticiasHilos_Cliente
                 {
                     lb_noticias.Content = "¡Bienvenido! Esto es lo ultimo en noticias.";
                 });
-                
+
+                string noticia = "";
                 while (true)
                 {
                     var ipEndPoint = new IPEndPoint(IPAddress.Any, 0);
-                    var data = udpClient.Receive(ref ipEndPoint);
-
-                    Console.WriteLine(Encoding.Default.GetString(data));
-
-                    noticia = Encoding.Default.GetString(data);
-
-                    this.Dispatcher.Invoke(() =>
+                    if (!ocupado)
                     {
-                        sp_noticias.Children.Add(CrearNoticia(noticia));
-                    });
+                        ocupado = true;
+                        Console.WriteLine("entro");
+                        var data = udpClient.Receive(ref ipEndPoint);
+
+                        numNoticia++;
+                        noticia = Encoding.Default.GetString(data);
+                        noticias.Add(noticia);
+                        Thread threadNoticia = new Thread(new ParameterizedThreadStart(EscribirNoticia));
+                        hilosNoticias.Add(threadNoticia);
+
+                        hilosNoticias[numNoticia-1].Start(noticias[numNoticia-1]);
+                    }
+                    
                 }
             }
             catch (Exception ex)
@@ -72,6 +83,28 @@ namespace NoticiasHilos_Cliente
             }
         }
 
+        private void EscribirNoticia(object noticia)
+        {
+            string noticiaAEscribir = (string)noticia;
+            char[] arrayNoticia = noticiaAEscribir.ToCharArray();
+            //Array.Reverse(inverso);
+
+            foreach (char item in arrayNoticia)
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    tb_noticias.AppendText(item.ToString());
+                });
+                Thread.Sleep(500);
+            }
+            this.Dispatcher.Invoke(() =>
+            {
+                tb_noticias.AppendText("     ");
+            });
+
+            ocupado = false;
+        }
+        /*
         private UIElement CrearNoticia(string noticia)
         {
             StackPanel stackP = new StackPanel();
@@ -86,13 +119,17 @@ namespace NoticiasHilos_Cliente
 
             return stackP;
         }
-
+        */
         private void Click_btn_salir(object sender, RoutedEventArgs e)
         {
             thread.Abort();
+            foreach (var item in hilosNoticias)
+            {
+                item.Abort();
+            }
 
             this.Dispatcher.Invoke(() => {
-                sp_noticias.Children.Clear();
+                tb_noticias.Clear();
                 lb_noticias.Content = "Adios!";
             });
 

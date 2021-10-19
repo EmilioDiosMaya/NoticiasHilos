@@ -5,18 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NoticiasHilos_Cliente"
         mc:Ignorable="d"
-        Title="MainWindow" Width="800" Height="439.092">
+        Title="MainWindow" Width="800" Height="439.092" ResizeMode="NoResize">
     <Grid>
         <StackPanel Margin="10">
             <Image Height="100" Source="img/noticias.png"/>
-            <Label Content="Noticias express" HorizontalAlignment="Center" FontFamily="Roboto" FontSize="24" Margin="0,10,0,0"/>
+            <Label Content="Noticias express" HorizontalAlignment="Center" FontFamily="Roboto" FontSize="24" Margin="0,10,0,0" FontWeight="Bold" FontStyle="Italic"/>
             <StackPanel>
                 <Button x:Name="btn_iniciar" Content="Iniciar" Width="75" Click="Click_btn_iniciar"/>
                 <Button x:Name="btn_salir" Content="Salir" Width="75" Click="Click_btn_salir"/>
             </StackPanel>
             <Rectangle Fill="CadetBlue" Height="7" Margin="0,10"/>
-            <Label x:Name="lb_noticias" Content="" FontFamily="Roboto" FontSize="20"/>
-            <StackPanel x:Name="sp_noticias" Orientation="Horizontal" Background="#FFB2D5D6" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
+            <Label x:Name="lb_noticias" Content="" FontFamily="Roboto" FontSize="22" FontWeight="Bold"/>
+            <TextBox x:Name="tb_noticias" Height="71" TextWrapping="NoWrap"  VerticalContentAlignment="Center" BorderBrush="{x:Null}" FontFamily="Roboto" FontSize="20" FlowDirection="RightToLeft" Margin="-44,0"/>
+
         </StackPanel>
     </Grid>
 </Window>
