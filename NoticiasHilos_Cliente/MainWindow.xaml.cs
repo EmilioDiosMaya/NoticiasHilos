@@ -104,22 +104,6 @@ namespace NoticiasHilos_Cliente
 
             ocupado = false;
         }
-        /*
-        private UIElement CrearNoticia(string noticia)
-        {
-            StackPanel stackP = new StackPanel();
-            Label label = new Label();
-
-            //Configurar el label
-            label.Content = noticia;
-            label.HorizontalAlignment = HorizontalAlignment.Center;
-
-            stackP.Children.Add(label);
-            stackP.Background = Brushes.Azure;
-
-            return stackP;
-        }
-        */
         private void Click_btn_salir(object sender, RoutedEventArgs e)
         {
             thread.Abort();
